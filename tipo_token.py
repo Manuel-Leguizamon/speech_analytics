@@ -7,6 +7,8 @@ class TokenType(Enum):
     NEUTRAL = "NEUTRAL"
     SALUDO = "SALUDO"
     DESPEDIDA = "DESPEDIDA"
+    IDENTIFICACION = "IDENTIFICACION"
+    PROHIBIDA = "PROHIBIDA"
 
     @property
     def titulo(self):
@@ -18,6 +20,10 @@ class TokenType(Enum):
             return "SALUDO"
         elif self == TokenType.DESPEDIDA:
             return "DESPEDIDA"
+        elif self == TokenType.IDENTIFICACION:
+            return "IDENTIFICACION"
+        elif self == TokenType.PROHIBIDA:
+            return "PROHIBIDA"
         else:
             return "NEUTRAL"
 
@@ -25,10 +31,14 @@ class TokenType(Enum):
         if self == TokenType.BUENO:
             return 2
         elif self == TokenType.MALO:
-            return 4
+            return -2
         elif self == TokenType.SALUDO:
-            return 3
+            return 1
         elif self == TokenType.DESPEDIDA:
-            return 3
+            return 1
+        elif self == TokenType.IDENTIFICACION:
+            return 1
+        elif self == TokenType.PROHIBIDA:
+            return -4
         else:
             return 0

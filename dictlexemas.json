@@ -11,6 +11,18 @@
             "length": 2
         }
     },
+    "te": {
+        "te_habla": {
+            "id": "te_habla",
+            "lexemas": [
+                "te",
+                "habla"
+            ],
+            "token": "IDENTIFICACION",
+            "peso": 2,
+            "length": 2
+        }
+    },
     "hola":{
         "hola":{
             "id":"hola",
@@ -53,7 +65,7 @@
                 "gusta"
             ],
             "token": "MALO",
-            "peso": 4,
+            "peso": 3,
             "length": 3
         },
         "no_muchas_gracias": {
@@ -74,7 +86,7 @@
                 "quiero"
             ],
             "token": "MALO",
-            "peso": 4,
+            "peso": 2,
             "length": 2
         },
         "no_nos_ha_interesado": {
@@ -88,6 +100,19 @@
             "token": "MALO",
             "peso": 4,
             "length": 4
+        }
+    },
+    "si":{
+        "si_me_interesa":{
+            "id":"si_me_interesa",
+            "lexemas":[
+                "si",
+                "me",
+                "interesa"
+            ],
+            "token":"BUENO",
+            "peso":4,
+            "length":3
         }
     },
     "muchisimas":{
@@ -237,6 +262,62 @@
             "token": "BUENO",
             "peso": 1,
             "length": 1
+        },
+        "gracias_por_tu_tiempo": {
+            "id": "gracias_por_tu_tiempo",
+            "lexemas": [
+                "gracias",
+                "por",
+                "tu",
+                "tiempo"
+            ],
+            "token": "BUENO",
+            "peso": 4,
+            "length": 4
+        }
+    },
+    "chao":{
+        "chao":{
+            "id":"chao",
+            "lexemas":[
+                "chao"
+            ],
+            "token":"DESPEDIDA",
+            "peso":1,
+            "length":1
+        }
+    },
+    "chau":{
+        "chau":{
+            "id":"chau",
+            "lexemas":[
+                "chau"
+            ],
+            "token":"DESPEDIDA",
+            "peso":1,
+            "length":1
+        }
+    },
+    "okay":{
+        "okay":{
+            "id":"okay",
+            "lexemas":[
+                "okay"
+            ],
+            "token":"NEUTRAL",
+            "peso":1,
+            "length":1
+        }
+    },
+    "idiota":{
+        "okay":{
+            "id":"idiota",
+            "lexemas":[
+                "idiota"
+            ],
+            "token":"PROHIBIDA",
+            "peso":4,
+            "length":1
         }
     }
 }

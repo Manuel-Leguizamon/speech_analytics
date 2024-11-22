@@ -17,6 +17,11 @@ def procesar_archivo(archivo_entrada: str):
         tokenizer = MinimalTokenizer(tokens)
         tokenizer.buscar_lexemas()
 
+        # Obtener la evaluación
+        resultado_evaluacion = tokenizer.evaluacion
+        categoria, puntaje = resultado_evaluacion
+
+
         # Imprime los tokens encontrados
         print("Tokens encontrados:")
         for lexema in tokenizer.tokenized_lex:
@@ -26,5 +31,9 @@ def procesar_archivo(archivo_entrada: str):
         print(tokenizer.no_tokenized_lex)
         print("-" * 50)
 
+        print("\nResultado de la evaluación:")
+        print(f"Categoría: {categoria}")
+        print(f"Puntaje: {puntaje}")
+        print("-" * 50)
 if __name__ == "__main__":
     procesar_archivo("texto_corregido.txt")

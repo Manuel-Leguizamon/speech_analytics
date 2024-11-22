@@ -28,23 +28,31 @@ class MinimalTokenizer:
     @property
     def tiene_despedida(self) -> bool:
         return TokenType.DESPEDIDA in self.token_types_found
+    @property
+    def tiene_identificacion(self) -> bool:
+        return TokenType.IDENTIFICACION in self.token_types_found
+    @property
+    def tiene_prohibidas(self) -> bool:
+        return TokenType.PROHIBIDA in self.token_types_found
 
     @property
     def evaluacion(self) -> Tuple[str, float]:
-        bueno_sum, malo_sum, saludo_peso, despedida_peso = self.__categorizar_sumar_pesos()
-        bueno_normalizado, malo_normalizado, saludo_normalizado, despedida_normalizado = (
-            self.__normalizar_pesos(bueno_sum, malo_sum, saludo_peso, despedida_peso)
+        bueno_sum, malo_sum, saludo_peso, despedida_peso, identif_peso, prohi_peso = self.__categorizar_sumar_pesos()
+        bueno_normalizado, malo_normalizado, saludo_normalizado, despedida_normalizado, identif_normalizado, prohi_normalizado = (
+            self.__normalizar_pesos(bueno_sum, malo_sum, saludo_peso, despedida_peso,identif_peso,prohi_peso)
         )
         puntaje = self.__evaluacion_final(
-            bueno_normalizado, malo_normalizado, saludo_normalizado, despedida_normalizado
+            bueno_normalizado, malo_normalizado, saludo_normalizado, despedida_normalizado, identif_normalizado, prohi_normalizado
         )
         return self.__map_categoria_to_puntaje(puntaje), puntaje
 
-    def __categorizar_sumar_pesos(self) -> Tuple[int, int, int, int]:
+    def __categorizar_sumar_pesos(self) -> Tuple[int, int, int, int,int,int]:
         bueno_sum = 0
         malo_sum = 0
         saludo_peso = 0
         despedida_peso = 0
+        identif_peso = 0
+        prohi_peso = 0
         for lexema in self.tokenized_lex:
             if lexema.token == TokenType.BUENO:
                 bueno_sum += lexema.peso * lexema.token.pesos_por_defecto()
@@ -54,23 +62,29 @@ class MinimalTokenizer:
                 saludo_peso += lexema.peso * lexema.token.pesos_por_defecto()
             elif lexema.token == TokenType.DESPEDIDA:
                 despedida_peso += lexema.peso * lexema.token.pesos_por_defecto()
-        return bueno_sum, malo_sum, saludo_peso, despedida_peso
+            elif lexema.token == TokenType.IDENTIFICACION:
+                identif_peso += lexema.peso * lexema.token.pesos_por_defecto()
+            elif lexema.token == TokenType.PROHIBIDA:
+                prohi_peso += lexema.peso * lexema.token.pesos_por_defecto()
+        return bueno_sum, malo_sum, saludo_peso, despedida_peso, identif_peso, prohi_peso
 
     @staticmethod
-    def __normalizar_pesos(bueno_sum: int, malo_sum: int, saludo_peso: int, despedida_peso: int) -> (
+    def __normalizar_pesos(bueno_sum: int, malo_sum: int, saludo_peso: int, despedida_peso: int, identif_peso: int, prohi_peso: int) -> (
             Tuple
-    )[float, float, float, float]:
-        total = bueno_sum + malo_sum + saludo_peso + despedida_peso
+    )[float, float, float, float, float, float]:
+        total = bueno_sum + malo_sum + saludo_peso + despedida_peso + identif_peso + prohi_peso
         if total == 0:
-            return 0.0, 0.0, 0.0, 0.0  # Avoid division by zero
+            return 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  # Avoid division by zero
         bueno_normalizado = bueno_sum / total
         malo_normalizado = malo_sum / total
         saludo_peso_normalizado = saludo_peso / total
         despedida_peso_normalizado = despedida_peso / total
-        return bueno_normalizado, malo_normalizado, saludo_peso_normalizado, despedida_peso_normalizado
+        identif_normalizado = identif_peso / total
+        prohi_normalizado = prohi_peso / total
+        return bueno_normalizado, malo_normalizado, saludo_peso_normalizado, despedida_peso_normalizado, identif_normalizado, prohi_normalizado
 
     def __evaluacion_final(self, bueno_normalizado: float, malo_normalizado: float, saludo_normalizado: float,
-                           despedida_normalizado: float) -> float:
+                           despedida_normalizado: float, identif_normalizado: float, prohi_normalizado: float) -> float:
         if not self.tiene_saludo:
             # saludo_normalizado += 0.03  # Si tiene saludo
             # else:
@@ -81,7 +95,7 @@ class MinimalTokenizer:
             # else:
             despedida_normalizado -= 0.3 * TokenType.SALUDO.pesos_por_defecto()
 
-        return bueno_normalizado - malo_normalizado + saludo_normalizado + despedida_normalizado
+        return bueno_normalizado - malo_normalizado + saludo_normalizado + despedida_normalizado + identif_normalizado - prohi_normalizado
 
     @staticmethod
     def __map_categoria_to_puntaje(puntaje: float) -> str:
