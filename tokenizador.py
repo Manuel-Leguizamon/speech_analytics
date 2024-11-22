@@ -92,7 +92,7 @@ class MinimalTokenizer:
         if not self.tiene_despedida:
             # despedida_normalizado += 0.03  # Si tiene despedida
             # else:
-            despedida_normalizado -= 0.3 * TokenType.SALUDO.pesos_por_defecto()
+            despedida_normalizado -= 0.3 * TokenType.DESPEDIDA.pesos_por_defecto()
 
         return bueno_normalizado - malo_normalizado + saludo_normalizado + despedida_normalizado + identif_normalizado - prohi_normalizado
 

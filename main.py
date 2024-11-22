@@ -120,6 +120,14 @@ def procesar_archivo(archivo_entrada: str):
     #------------------------------------
     #       TABLA DE SIMBOLOS           |
     #------------------------------------
+    titulo = [["Tabla De Simbolos"]]
+    # Generamos el cuadro para el título
+    cuadro_titulo = tabulate(
+        titulo, 
+        tablefmt="grid", 
+        stralign="center"
+    )
+    print(cuadro_titulo)
     # Construimos la tabla de símbolos
     tabla_simbolos = [
         [' '.join(lexema.lexemas), lexema.pesoO, lexema.token.titulo]  # Usar todas las palabras del lexema
