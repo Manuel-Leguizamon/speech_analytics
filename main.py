@@ -50,9 +50,13 @@ def generar_protocolo(tokenizer):
     for categoria, tiene_categoria, tipo_token in categorias:
         if tiene_categoria:  # Si la categoría está presente
             palabras_detectadas = [
-                ' '.join(lexema.lexemas) for lexema in tokenizer.tokenized_lex if lexema.token == tipo_token
+                ' '.join(lexema.lexemas) for lexema in tokenizer.tokenized_lex
+                if lexema.token == tipo_token and lexema.tag == 1  # Filtrar solo los lexemas con tag = 1
             ]
-            protocolo_datos.append([categoria, "OK", ", ".join(palabras_detectadas)])
+            if palabras_detectadas:
+                protocolo_datos.append([categoria, "OK", ", ".join(palabras_detectadas)])
+            else:
+                protocolo_datos.append([categoria, "Ninguna detectada", ""])
         else:  # Si la categoría no está presente
             protocolo_datos.append([categoria, "Ninguna detectada", ""])
 

@@ -11,11 +11,10 @@ class MinimalTokenizer:
         # Eliminar la etiqueta y el guion, y luego dividir cada elemento en palabras
         self.linea = []
         for cadena in linea:
-            # Eliminar los primeros dos caracteres (etiqueta y guion)
-            cadena_sin_etiqueta = cadena[2:]
+            # Eliminar el guion asociado a la etiqueta
+            cadena_sin_etiqueta = cadena.replace('-',' ')
             # Dividir la cadena en palabras y agregar cada palabra como un elemento en la lista
             self.linea.extend(cadena_sin_etiqueta.split())  # `split()` divide la cadena por espacios
-        
         self.dictlexemas: Dictlexemas = FileManager.leer_dictlexemas()
         self.tokenized_lex: List[Lexema] = []
         self.no_tokenized_lex: List[str] = []
@@ -115,12 +114,16 @@ class MinimalTokenizer:
         self.tokenized_lex = []
         self.no_tokenized_lex = []
         processed_lexemas = {}
+        etiqueta_interlocutor = 0
         while linea_to_map:
             palabra = linea_to_map[0]
+            if palabra.isdigit():   
+                etiqueta_interlocutor = int(palabra)
             if palabra in self.dictlexemas:
                 lexemas = list(self.dictlexemas[palabra].values())
                 lexema = self.__buscar_mejor_match(list(linea_to_map), lexemas)
                 if lexema:
+                    lexema.tag = etiqueta_interlocutor
                     if lexema.id in processed_lexemas:
                         # Incrementa el peso del lexema ya procesado
                         processed_lexemas[lexema.id].peso += lexema.pesoO
