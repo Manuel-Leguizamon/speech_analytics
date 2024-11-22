@@ -31,7 +31,7 @@ class TokenType(Enum):
         if self == TokenType.BUENO:
             return 2
         elif self == TokenType.MALO:
-            return -2
+            return 2
         elif self == TokenType.SALUDO:
             return 1
         elif self == TokenType.DESPEDIDA:
@@ -39,6 +39,6 @@ class TokenType(Enum):
         elif self == TokenType.IDENTIFICACION:
             return 1
         elif self == TokenType.PROHIBIDA:
-            return -4
+            return 4
         else:
             return 0

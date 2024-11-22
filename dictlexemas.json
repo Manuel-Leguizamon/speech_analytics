@@ -65,7 +65,7 @@
                 "gusta"
             ],
             "token": "MALO",
-            "peso": 3,
+            "peso": 2,
             "length": 3
         },
         "no_muchas_gracias": {
@@ -98,7 +98,7 @@
                 "interesado"
             ],
             "token": "MALO",
-            "peso": 4,
+            "peso": 3,
             "length": 4
         }
     },
