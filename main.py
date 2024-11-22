@@ -120,23 +120,14 @@ def procesar_archivo(archivo_entrada: str):
     #------------------------------------
     #       TABLA DE SIMBOLOS           |
     #------------------------------------
-    titulo = [["Tabla De Simbolos"]]
-    # Generamos el cuadro para el título
-    cuadro_titulo = tabulate(
-        titulo, 
-        tablefmt="grid", 
-        stralign="center"
-    )
-    print(cuadro_titulo)
-     # Construimos la tabla de símbolos
+    # Construimos la tabla de símbolos
     tabla_simbolos = [
-        [lexema.raiz, lexema.peso, lexema.token.titulo]
+        [' '.join(lexema.lexemas), lexema.pesoO, lexema.token.titulo]  # Usar todas las palabras del lexema
         for lexema in tokenizer.tokenized_lex
     ]
     # Mostrar la tabla usando tabulate
     print(tabulate(tabla_simbolos, headers=["Lexema", "Ponderación", "Token"], tablefmt="grid"))
     print("\n" + "*" * 50 + "\n")
-
 
     #------------------------------------
     #      PROTOCOLO DE ATENCION         |
