@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Speech Analytics – Front</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="container">
+    <h1>Speech Analytics – Front</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="alerts">
+          {% for category, message in messages %}
+            <div class="alert {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" enctype="multipart/form-data" class="card" autocomplete="off">
+      <label>Subir archivo .txt:
+        <input type="file" name="archivo" accept=".txt">
+      </label>
+
+      <div class="divider">o</div>
+
+      <label>Pegar texto:
+        <textarea name="texto" rows="8" placeholder="Pegá aquí el texto a analizar...">{{ texto_inicial }}</textarea>
+      </label>
+
+      <button type="submit">Analizar</button>
+    </form>
+    
+    {% if resultado %}
+      <section class="results">
+        <h2>Resultados</h2>
+
+        <details open>
+          <summary>Resumen del análisis de sentimiento</summary>
+          <div class="table-wrap">
+            {{ resultado.titulo_sent_html | safe }}
+            {{ resultado.resumen_sent_html | safe }}
+          </div>
+        </details>
+
+        <details>
+          <summary>Tabla de símbolos</summary>
+          <div class="table-wrap">
+            {{ resultado.titulo_tabla_simbolos_html | safe }}
+            {{ resultado.tabla_simbolos_html | safe }}
+          </div>
+        </details>
+        <details>
+            <summary>Estadísticas de tokens (debug)</summary>
+            <pre class="code">{{ resultado.stats }}</pre>
+        </details>
+
+        <details>
+          <summary>Protocolo de atención</summary>
+          <div class="table-wrap">
+            {{ resultado.titulo_protocolo_html | safe }}
+            {{ resultado.protocolo_html | safe }}
+          </div>
+        </details>
+
+        <details>
+          <summary>Tokens encontrados (debug)</summary>
+          <pre class="code">
+{% for lx in resultado.tokens_encontrados %}
+{{ lx }}
+{% endfor %}
+          </pre>
+        </details>
+
+        <details>
+          <summary>Texto no tokenizado (debug)</summary>
+          <pre class="code">{{ resultado.no_tokenizado }}</pre>
+        </details>
+      </section>
+    {% endif %}
+  </main>
+  <script>
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) document.querySelector('form')?.reset();
+  });
+</script>
+
+</body>
+
+</html>
